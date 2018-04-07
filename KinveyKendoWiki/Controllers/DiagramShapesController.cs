@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using EleMech_Wiki_5.Models;
-using EleMech_Wiki_5.Common;
+using KinveyKendoWiki.Models;
+using KinveyKendoWiki.Common;
 using System.Web.Script.Serialization;
-using EleMech_Wiki_5.Models.EF;
+using KinveyKendoWiki.Models.EF;
 
-namespace EleMech_Wiki_5.Controllers
+namespace KinveyKendoWiki.Controllers
 {
     public class DiagramShapesController : Controller
     {

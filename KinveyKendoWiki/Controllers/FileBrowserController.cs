@@ -3,9 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using EleMech_Wiki_5.Models;
+using KinveyKendoWiki.Models;
 
-namespace EleMech_Wiki_5.Controllers
+namespace KinveyKendoWiki.Controllers
 {
     public class FileBrowserController : Controller
     {

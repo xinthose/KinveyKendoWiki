@@ -1,11 +1,11 @@
-﻿using EleMech_Wiki_5.Models.EF;
+﻿using KinveyKendoWiki.Models.EF;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
 
-namespace EleMech_Wiki_5.Models
+namespace KinveyKendoWiki.Models
 {
     public static class DiagramShapesRepository
     {

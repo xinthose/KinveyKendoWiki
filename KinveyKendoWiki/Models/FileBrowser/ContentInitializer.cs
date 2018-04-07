@@ -2,7 +2,7 @@
 using System.Web;
 using System;
 
-namespace EleMech_Wiki_5.Models
+namespace KinveyKendoWiki.Models
 {
     public class ContentInitializer
     {

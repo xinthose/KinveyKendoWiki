@@ -1,4 +1,4 @@
-﻿namespace EleMech_Wiki_5.Models
+﻿namespace KinveyKendoWiki.Models
 {
     using System.Collections.Generic;
     using System.Drawing;

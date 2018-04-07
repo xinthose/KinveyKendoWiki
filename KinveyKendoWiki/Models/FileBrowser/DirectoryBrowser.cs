@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 
-namespace EleMech_Wiki_5.Models
+namespace KinveyKendoWiki.Models
 {
     public class DirectoryBrowser
     {
