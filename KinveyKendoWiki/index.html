@@ -1,0 +1,603 @@
+﻿<!--
+    This file is subject to the terms and conditions defined in
+    file 'LICENSE.txt', which is part of this source code bundle.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EleMech Wiki</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <!-------- Kendo Sources (Order Matters!) ---------->
+    <!-- CSS -->
+    <!--<link href="kendo/styles/kendo.common-bootstrap.min.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.bootstrap.min.css" rel="stylesheet" />-->
+    <link href="kendo/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
+    <!-- JS -->
+    <script src="kendo/js/jquery.min.js"></script>
+    <script src="kendo/js/angular.min.js"></script>
+    <script src="kendo/js/kendo.all.min.js"></script>
+    <script src="kendo/js/jszip.min.js"></script>
+
+    <!-------- Outside Script ---------->
+    <script src="osrc/moment.min.js"></script>
+    <script src="osrc/pako_deflate.min.js"></script>
+    <script src="https://bs-static.cdn.telerik.com/latest/everlive.all.min.js"></script>
+    <link href="osrc/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+    <script src="https://use.fortawesome.com/dc0da9b8.js"></script>
+    <!--<link href="osrc/kit-portalogic-dc0da9b8/css/external-min.css" rel="stylesheet" />-->
+    <!-- Jquery UI -->
+    <link rel="stylesheet" href="osrc/jquery-ui-1.12.1/jquery-ui.min.css">
+    <script src="osrc/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <!-- Converse Chat -->
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/css/converse.min.css">
+    <script src="https://cdn.conversejs.org/dist/converse.min.js"></script>    
+    <!-- Block Rain -->
+    <link rel="stylesheet" href="osrc/blockrain/blockrain.css">
+    <script src="osrc/blockrain/blockrain.jquery.js"></script>
+
+    <!-------- My Script (Order Matters!) ---------->
+    <script src="src/config.js"></script>
+    <script src="src/helper.js"></script>
+    <script src="src/index.js"></script>
+    <link href="src/index.css" rel="stylesheet" />
+</head>
+<body>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwUbYm7L1fStIJowi7YebhLQxDRxzidgY&libraries=places&callback=initMaps" async defer></script>
+
+    <!-- Main Splitter -->
+    <div id="main_splitter" data-role="splitview">
+        <!-- Top Header -->
+        <div id="main_splitter_header" data-role="header">
+            <div data-role="navbar">
+                <button id="toggle_menu_button" data-align="left" data-role="button" data-bind="events: { click: toggle_menu_button_click }" class="heading_4 k-button"><i class="fa fa-bars rotate"></i> Menu</button>
+                <button data-role="button" data-align="left" data-bind="events: { click: home_button_click }" class="heading_4 k-button"><i class="fa fa-home"></i> Home</button>
+                <span class="heading_4 include_spaces text-white" data-align="left" style="padding-left: 15px;">User: </span>
+                <span class="heading_4 text-white" data-bind="html: display_name" data-align="left"></span>
+                <span class="heading_1 text-white" data-bind="html: title"></span>
+                <button data-role="button" data-align="right" data-bind="events: { click: help_click }" class="heading_4 k-button"><i class="fa fa-help-with-circle"></i> Help</button>
+                <button data-role="button" data-align="right" data-bind="events: { click: about_click }" class="heading_4 k-button"><i class="fa fa-info-circle"></i> About</button>
+                <button data-role="button" data-align="right" data-bind="events: { click: logout_click }" class="heading_4 k-button"><i class="fa fa-account-logout"></i> Logout</button>
+            </div>
+            <div id="logout_dialog" data-role="dialog" data-title="Logout Confirmation" data-closable="false"
+                 data-content="Are you sure you want to logout?"
+                 data-actions="[{ text: 'Yes', action: logout_dialog_yes, primary: true },{text:'No', action: close_dialog}]"
+                 data-visible="false">
+            </div>
+        </div>
+        <!-- Left Pane -->
+        <div data-role="pane" id="left_pane" data-initial="#left_pane_home_screen" data-transition="slide">
+            <!-- Home -->
+            <div id="left_pane_home_screen" data-role="view" data-model="APP.models.left_pane_home_screen" data-title="Menu" data-bind="events: { beforeShow: before_show }">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <span data-role="view-title" class="heading_1 text-white"></span>
+                    </div>
+                </div>
+                <div data-role="listview" data-style="inset" data-template="topics_template" data-bind="source: topics_ds"></div>
+                <ul data-role="listview" data-style="inset">
+                    <li>
+                        <a onclick="main_pane.navigate('#main_pane_troubleshooting_screen');"><i class="fa fa-wrench-glyphicon"></i> Troubleshooting</a>
+                    </li>
+                    <li>
+                        <a onclick="main_pane.navigate('#main_pane_search_screen');"><i class="fa fa-search"></i> Search</a>
+                    </li>
+                    <li>
+                        <a href="#left_pane_settings_screen"><i class="fa fa-cog"></i> Settings</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Topics - SubTopics - 1 -->
+            <div id="left_pane_subtopics_1" data-role="view" data-model="APP.models.left_pane_subtopics_1" data-title="Menu" data-bind="events: { beforeShow: before_show }">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <button data-role="button" data-align="left" class="heading_4 k-button" onclick="left_pane.navigate('#:back');"><i class="fa fa-reply"></i></button>
+                        <span data-role="view-title" class="heading_1 text-white"></span>
+                    </div>
+                </div>
+                <div data-role="listview" data-style="inset" data-template="topics_template" data-bind="source: topics_ds"></div>
+            </div>
+            <!-- Topics - SubTopics - 2 -->
+            <div id="left_pane_subtopics_2" data-role="view" data-model="APP.models.left_pane_subtopics_2" data-title="Menu" data-bind="events: { beforeShow: before_show }">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <button data-role="button" data-align="left" class="heading_4 k-button" onclick="left_pane.navigate('#:back');"><i class="fa fa-reply"></i></button>
+                        <span data-role="view-title" class="heading_1 text-white"></span>
+                    </div>
+                </div>
+                <div data-role="listview" data-style="inset" data-template="topics_template" data-bind="source: topics_ds"></div>
+            </div>
+            <!-- Topics - SubTopics - 3 -->
+            <div id="left_pane_subtopics_3" data-role="view" data-model="APP.models.left_pane_subtopics_3" data-title="Menu" data-bind="events: { beforeShow: before_show }">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <button data-role="button" data-align="left" class="heading_4 k-button" onclick="left_pane.navigate('#:back');"><i class="fa fa-reply"></i></button>
+                        <span data-role="view-title" class="heading_1 text-white"></span>
+                    </div>
+                </div>
+                <div data-role="listview" data-style="inset" data-template="topics_template" data-bind="source: topics_ds"></div>
+            </div>
+            <!-- Topics - SubTopics - 4 -->
+            <div id="left_pane_subtopics_4" data-role="view" data-model="APP.models.left_pane_subtopics_4" data-title="Menu" data-bind="events: { beforeShow: before_show }">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <button data-role="button" data-align="left" class="heading_4 k-button" onclick="left_pane.navigate('#:back');"><i class="fa fa-reply"></i></button>
+                        <span data-role="view-title" class="heading_1 text-white"></span>
+                    </div>
+                </div>
+                <div data-role="listview" data-style="inset" data-template="topics_template" data-bind="source: topics_ds"></div>
+            </div>
+            <!------------------------------ Settings ------------------------------>
+            <!-- Settings -->
+            <div id="left_pane_settings_screen" data-role="view" data-model="APP.models.left_pane_home_screen" data-title="Settings">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <button data-role="button" data-align="left" class="heading_4 k-button" onclick="left_pane.navigate('#:back');"><i class="fa fa-reply"></i></button>
+                        <span data-role="view-title" class="heading_1 text-white"></span>
+                    </div>
+                </div>
+                <ul data-role="listview" data-style="inset">
+                    <li>
+                        <a onclick="main_pane.navigate('#main_pane_profile_screen');"><i class="fa fa-person"></i> Profile</a>
+                    </li>
+                    <li>
+                        <a><i class="fa fa-cogs"></i> Wiki</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-------------------- Other -------------------->
+            <!-- Topics Template -->
+            <script id="topics_template" type="text/x-kendo-tmpl">
+                <a data-id='#:Id#' data-bind="events: { click: topic_click }">#:Name#</a>
+            </script>
+        </div>
+        <!-- Main Pane -->
+        <div data-role="pane" id="main_pane" data-initial="#main_pane_blank" data-transition="slide">
+            <div id="main_pane_blank" data-role="view">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <span class="heading_1 include_spaces"> </span>
+                    </div>
+                </div>
+            </div>
+            <!-------------------- Menu -------------------->
+            <!-- Home -->
+            <div id="main_pane_home_screen" data-role="view" data-model="APP.models.main_pane_home_screen" data-title="Home" data-bind="events: { beforeShow: before_show }">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <span data-role="view-title" class="heading_1 text-white"></span>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="row form-group justify-content-start">
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                            <div class="card">
+                                <span class="heading_2 card-header">Quicklinks</span>                                
+                                <div class="card-body">
+                                    <div class="custom_listview card-text" data-role="listview" data-template="quicklinks_template" data-bind="source: topics_ds"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                            <div class="card">
+                                <span class="heading_2 card-header">Actions</span>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <button data-role="button" href="#main_pane_edit_topics_screen" class="heading_3 k-button"><i class="fa fa-edit"></i> Edit Topics</button>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <button data-role="button" href="#main_pane_edit_topic_tags_screen" class="heading_3 k-button"><i class="fa fa-edit"></i> Edit Topic Tags</button>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <button data-role="button" href="#main_pane_edit_quicklinks_screen" class="heading_3 k-button"><i class="fa fa-edit"></i> Edit Quicklinks</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Search -->
+            <div id="main_pane_search_screen" data-role="view" data-model="APP.models.main_pane_search_screen" data-title="Search" data-bind="events: { beforeShow: before_show, afterShow: after_show, init: replaceMobileDropdownList }">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <button data-role="button" data-align="left" class="heading_4 k-button" onclick="main_pane.navigate('#:back');"><i class="fa fa-reply"></i> Back</button>
+                        <span data-role="view-title" class="heading_1 text-white"></span>
+                        <button data-role="button" data-align="right" data-bind="events: { click: cancel_button_click } " class="heading_4 k-button">Cancel <i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <ul data-role="panelbar" data-expand-mode="single">
+                    <li class="k-state-active">
+                        <span class="heading_3">By Tags / Topic Name</span>
+                        <div class="container-fluid text-center">
+                            <div class="row form-group justify-content-center" style="padding: 15px;">
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-5">
+                                    <select id="main_pane_search_screen_tags" data-role="multiselect" data-placeholder="Type a Tag" data-text-field="Name" data-value-field="Id" data-value-primitive="true" data-bind="value: tags, source: topic_tags_ds, events: { change: tags_change }" style="width: 100%;"></select>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                                    <input id="main_pane_search_screen_topic_num" data-role="combobox" data-placeholder="Type a Topic Name" data-value-primitive="true" data-text-field="Name" data-value-field="Id"
+                                           data-height="300" style="width: 250px;" data-bind="value: topic_id, source: topics_ds, events: { change: topic_num_change }" />
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 col-xl-2">
+                                    <button data-role="button" data-bind="events: { click: topic_navigate_tags } " class="heading_4 k-button">Navigate <i class="fa fa-navigate-next"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="heading_3">By Topic Text</span>
+                        <div class="container-fluid" style="margin-top: 15px;">
+                            <div class="row form-group justify-content-center">
+                                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 col-xl-2 text-center">
+                                    <button data-role="button" data-bind="events: { click: topic_search_add } " class="heading_4 include_spaces k-button">Add Search Words <i class="fa fa-plus"></i></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 col-xl-2">
+                                    <div class="card">
+                                        <span class="heading_2 card-header">Search Logic</span>
+                                        <div class="card-body">
+                                            <ul data-role="buttongroup" data-index="0" data-select="APP.models.main_pane_search_screen.search_logic_select">
+                                                <li>
+                                                    <span class="heading_4">AND</span>
+                                                </li>
+                                                <li>
+                                                    <span class="heading_4">OR</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 col-xl-2 text-center">
+                                    <button data-role="button" data-bind="events: { click: topic_search } " class="heading_4 k-button">Search <i class="fa fa-search"></i></button>
+                                </div>
+                                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 col-xl-2">
+                                    <div class="card">
+                                        <span class="heading_2 card-header">Search Results</span>
+                                        <div class="card-body">
+                                            <input id="main_pane_search_screen_topic_id_words" data-role="dropdownlist" data-text-field="Name" data-value-field="Id" data-value-primitive="true" data-bind="value: topic_id_words, source: topics_ds" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 col-xl-2 text-center">
+                                    <button data-role="button" data-bind="events: { click: topic_navigate_words } " class="heading_4 k-button">Navigate <i class="fa fa-navigate-next"></i></button>
+                                </div>
+                            </div>
+                            <div class="row form-group justify-content-start">
+                                <div class="col">
+                                    <div id="main_pane_search_screen_listview" data-role="listview" data-template="main_pane_search_screen_listview_template"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- Topic Content -->
+            <div id="main_pane_topic_content" data-role="view" data-transition="slide" data-model="APP.models.main_pane_topic_content" data-bind="events: { beforeShow: before_show}" data-stretch="true">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <button data-role="button" data-align="left" class="heading_4 k-button" data-bind="events: { click: back_button_click }"><i class="fa fa-reply"></i> Back</button>
+                        <span data-bind="html: title" class="heading_1 text-white"></span>
+                        <button data-role="button" data-align="right" data-bind="events: { click: diagram_button_click }" class="heading_4 k-button"><i class="fa fa-sitemap"></i> Diagram</button>
+                        <button data-role="button" data-align="right" data-bind="events: { click: edit_tags_button_click }" class="heading_4 k-button"><i class="fa fa-tags"></i> Edit Tags</button>
+                    </div>
+                </div>
+                <textarea id="main_pane_topic_content_editor" rows="10" cols="30" style="width: 100%; height: 100%;" data-bind="events: { keydown: editor_keydown }"></textarea>
+            </div>
+            <!-- Topic Tags -->
+            <div id="main_pane_topic_tags_screen" data-role="view" data-model="APP.models.main_pane_topic_tags_screen" data-title="Search" data-bind="events: { beforeShow: before_show }">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <button data-role="button" data-align="left" class="heading_4 k-button" onclick="main_pane.navigate('#:back');"><i class="fa fa-reply"></i> Back</button>
+                        <span data-bind="html: title" class="heading_1 text-white"></span>
+                        <button data-role="button" data-align="right" data-bind="events: { click: save_button_click } " class="heading_4 k-button"><i class="fa fa-saved"></i> Save</button>
+                        <button data-role="button" data-align="right" data-bind="events: { click: cancel_button_click } " class="heading_4 k-button"><i class="fa fa-times"></i> Cancel</button>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="row form-group justify-content-center">
+                        <div class="col-xs-12 col-sm-9 col-md-8 col-lg-7 col-xl-6">
+                            <div class="card">
+                                <span class="heading_4 card-header">Tags</span>
+                                <div class="card-body">
+                                    <select id="main_pane_topic_tags_screen_tags" data-role="multiselect" data-placeholder="Type a Tag" data-text-field="Name" data-value-field="Id" data-value-primitive="true" data-bind="value: tags, source: topic_tags_ds"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Topic Diagram -->
+            <div id="main_pane_topic_diagram" data-role="view" data-transition="slide" data-model="APP.models.main_pane_topic_diagram" data-bind="events: { beforeShow: before_show}" data-stretch="true">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <button data-role="button" data-align="left" class="heading_4 k-button" onclick="main_pane.navigate('#:back');"><i class="fa fa-reply"></i> Back</button>
+                        <span data-bind="html: title" class="heading_1 text-white"></span>
+                        <button data-role="button" data-align="right" data-bind="events: { click: pdf_export_button_click } " class="heading_4 k-button"><i class="fa fa-page-export-pdf"></i> Export PDF</button>
+                        <button data-role="button" data-align="right" data-bind="events: { click: save_button_click } " class="heading_4 k-button"><i class="fa fa-saved"></i> Save</button>
+                        <button data-role="button" data-align="right" data-bind="events: { click: cancel_button_click } " class="heading_4 k-button"><i class="fa fa-times"></i> Cancel</button>
+                    </div>
+                </div>
+                <div id="main_pane_topic_diagram_diagram" style="height: 100%; width: 100%;"></div>
+            </div>
+            <!-- Profile Screen -->
+            <div id="main_pane_profile_screen" data-role="view" data-title="Profile" data-transition="slide" data-model="APP.models.main_pane_profile_screen" data-bind="events: { afterShow: after_show}">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <button data-role="button" data-align="left" class="heading_4 k-button" onclick="main_pane.navigate('#:back');"><i class="fa fa-reply"></i> Back</button>
+                        <span data-role="view-title" class="heading_1 text-white"></span>
+                    </div>
+                </div>
+                <ul data-role="panelbar" data-expand-mode="single">
+                    <li>
+                        <span class="heading_3"><i class="fa fa-key-change"></i> Change Password</span>
+                        <div class="container-fluid">
+                            <div class="row form-group justify-content-center" style="margin-top: 15px;">
+                                <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                    <div class="card">
+                                        <span class="heading_4 card-header">Current Password</span>
+                                        <div class="card-body">
+                                            <input data-role="maskedtextbox" data-bind="value: password" maxlength="40" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                    <div class="card">
+                                        <span class="heading_4 card-header">New Password</span>
+                                        <div class="card-body">
+                                            <input data-role="maskedtextbox" data-bind="value: new_password" maxlength="40" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group justify-content-center">
+                                <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 col-xl-1">
+                                    <span class="heading_3" data-filter="i" data-role="tooltip" style="font-size: 25pt;"><i title="Please send the Administrator an email about your password change so they can update it for the chat." class="fa fa-warning"></i></span>
+                                </div>
+                                <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 col-xl-1">
+                                    <button data-role="button" class="heading_4 k-button" data-bind="events: { click: change_password_submit }">Submit</button>
+                                </div>
+                                <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 col-xl-1">
+                                    <button data-role="button" class="heading_4 k-button" data-bind="events: { click: change_password_cancel }">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="heading_3"><i class="fa fa-theme-light-dark"></i> Change Theme</span>
+                        <div class="container-fluid">
+                            <div class="row form-group justify-content-center" style="margin-top: 15px;">
+                                <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                    <div class="card">
+                                        <span class="heading_4 card-header">Select Theme</span>
+                                        <div class="card-body">
+                                            <input id="main_pane_profile_screen_theme_num" data-role="combobox" data-clear-button="false" data-placeholder="Select Theme" data-value-primitive="true" data-text-field="text" data-value-field="value"
+                                                   data-bind="value: theme_num, source: theme_num_ds, events: { change: theme_num_change }" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                    <div class="card">
+                                        <span class="heading_4 card-header">Select Skin</span>
+                                        <div class="card-body">
+                                            <input id="main_pane_profile_screen_skin_num" data-role="combobox" data-clear-button="false" data-placeholder="Select Skin" data-value-primitive="true" data-text-field="text" data-value-field="value"
+                                                   data-bind="value: skin_num, source: skin_num_ds, events: { change: skin_num_change }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group justify-content-center">
+                                <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 col-xl-1">
+                                    <button data-role="button" class="heading_4 k-button" data-bind="events: { click: change_theme_submit }" style="margin-right: 5px;">Submit</button>
+                                </div>
+                                <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 col-xl-1">
+                                    <button data-role="button" class="heading_4 k-button" data-bind="events: { click: change_theme_cancel }">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- Edit Quicklinks Screen -->
+            <div id="main_pane_edit_quicklinks_screen" data-role="view" data-title="Edit Quicklinks" data-transition="slide" data-model="APP.models.main_pane_edit_quicklinks_screen" data-bind="events: { beforeShow: before_show }">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <button data-role="button" data-align="left" class="heading_4 k-button" onclick="main_pane.navigate('#:back');"><i class="fa fa-reply"></i> Back</button>
+                        <span data-role="view-title" class="heading_1 text-white"></span>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="row form-group justify-content-center">
+                        <div class="col">
+                            <div class="card">
+                                <span class="heading_2 card-header">Current List</span>
+                                <div class="card-body">
+                                    <div class="custom_listview" data-role="listview" data-style="inset" data-template="edit_quicklinks_delete_template" data-bind="source: quicklinks_ds"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <span class="heading_2 card-header">Topics List</span>
+                                <div class="card-body">
+                                    <div class="custom_listview" data-role="listview" data-style="inset" data-template="edit_quicklinks_add_template" data-bind="source: topics_ds"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Edit Topics -->
+            <div id="main_pane_edit_topics_screen" data-role="view" data-model="APP.models.main_pane_edit_topics_screen" data-title="Edit Topics" data-bind="events: { beforeShow: before_show }">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <button data-role="button" data-align="left" class="heading_4 k-button" onclick="main_pane.navigate('#:back');"><i class="fa fa-reply"></i> Back</button>
+                        <span data-role="view-title" class="heading_1 text-white"></span>
+                    </div>
+                </div>
+                <id id="main_pane_edit_topics_screen_grid"></id>
+            </div>
+            <!-- Edit Topic Tags -->
+            <div id="main_pane_edit_topic_tags_screen" data-role="view" data-model="APP.models.main_pane_edit_topic_tags_screen" data-title="Edit Topic Tags" data-bind="events: { beforeShow: before_show }">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <button data-role="button" data-align="left" class="heading_4 k-button" onclick="main_pane.navigate('#:back');"><i class="fa fa-reply"></i> Back</button>
+                        <span data-role="view-title" class="heading_1 text-white"></span>
+                    </div>
+                </div>
+                <id id="main_pane_edit_topic_tags_screen_grid"></id>
+            </div>
+            <!-- Troubleshooting -->
+            <div id="main_pane_troubleshooting_screen" data-role="view" data-model="APP.models.main_pane_troubleshooting_screen" data-title="Troubleshooting" data-bind="events: { afterShow: after_show }">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <button data-role="button" data-align="left" class="heading_4 k-button" onclick="main_pane.navigate('#:back');"><i class="fa fa-reply"></i> Back</button>
+                        <span data-role="view-title" class="heading_1 text-white"></span>
+                    </div>
+                </div>
+                <id id="main_pane_troubleshooting_screen_grid"></id>
+            </div>
+
+            <!-------------------- Other -------------------->
+            <!-- Quicklinks Template -->
+            <script id="quicklinks_template" type="text/x-kendo-tmpl">
+                <a data-id='#:Id#' data-bind="events: { click: quicklink_click }">#:Name#</i></a>
+            </script>
+            <!-- Edit Quicklinks (Delete) Template -->
+            <script id="edit_quicklinks_delete_template" type="text/x-kendo-tmpl">
+                <div class="row form-group justify-content-center">
+                    <div class="col">
+                        <span style="font-size: 14pt; font-weight: 600;">#:Name#</span>
+                    </div>
+                    <div class="col">
+                        <button data-role="button" class="heading_4 k-button" data-id='#:Id#' data-bind="events: { click: delete_quicklink }"><i class="fa fa-minus"></i> Delete</button>
+                    </div>
+                </div>
+            </script>
+            <!-- Edit Quicklinks (Add) Template -->
+            <script id="edit_quicklinks_add_template" type="text/x-kendo-tmpl">
+                <div class="row form-group justify-content-center">
+                    <div class="col my-auto">
+                        <span style="font-size: 14pt; font-weight: 600;">#:Name#</span>
+                    </div>
+                    <div class="col my-auto">
+                        <button data-role="button" class="heading_4 k-button" data-id="#:Id#" data-bind="events: { click: add_quicklink }"><i class="fa fa-plus"></i> Add</button>
+                    </div>
+                </div>
+            </script>
+            <!-- Add Search Words Template -->
+            <script id="main_pane_search_screen_listview_template" type="text/x-kendo-tmpl">
+                <div class="row form-group justify-content-center" id="main_pane_search_screen_listview_template_#:idx#">
+                    <div class="col my-auto">
+                        <input data-role="maskedtextbox" data-bind="value: search_words_#:idx#" maxlength="200" style="width: 100%;" placeholder="Type Search Words" />
+                    </div>
+                    <div class="col my-auto">
+                        <button data-role="button" data-id="#:idx#" data-bind="events: { click: remove_search_words } " class="heading_4 k-button"><i class="fa fa-trash"></i></button>
+                    </div>
+                </div>
+            </script>            
+            <!-- Header Layout -->
+            <div data-role="layout" data-id="main_pane_header">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <button data-role="button" data-align="left" class="heading_4 k-button" onclick="main_pane.navigate('#:back');"><i class="fa fa-reply"></i> Back</button>
+                        <button data-role="button" data-align="left" class="heading_4 k-button"><i class="fa fa-redo"></i> Refresh</button>
+                        <span data-role="view-title" class="heading_1 text-white"></span>
+                        <!--<button data-role="button" data-rel="drawer" href="#main_pane_right_drawer" data-icon="menu_icon_dots" data-align="right">Nav</button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!---------------------------------- Other ---------------------------------->
+
+    <span id="screen_popup"></span>
+    <span id="screen_popup_short"></span>
+    <span id="screen_popup_no_hide"></span>
+
+    <!-- Fun Window -->
+    <div id="fun_window">
+        <div id="tetris" style="width: 100%; height: 100%;"></div>
+    </div>
+    <!-- Login Window -->
+    <div id="login_window">
+        <div class="card">
+            <div class="card-body">
+                <span class="heading_4">Username</span>
+                <br /><br />
+                <input id="login_window_user_name" data-role="maskedtextbox" data-bind="value: user_name" maxlength="30" name="Username" required />
+                <br />
+                <span class="k-invalid-msg" data-for="Username"></span>
+                <br />
+                <span class="heading_4">Password</span>
+                <br /><br />
+                <input id="login_window_password" type="password" data-role="maskedtextbox" data-bind="value: password" maxlength="40" name="Password" required />
+                <br />
+                <span class="k-invalid-msg" data-for="Password"></span>
+                <br /><br />
+                <div class="text-center">
+                    <button data-role="button" data-bind="events: { click: submit_button_click }" class="heading_4 k-button include_spaces"><i class="fa fa-login"></i> Login</button>
+                    <button data-role="button" data-bind="events: { click: cancel_button_click }" class="heading_4 k-button include_spaces"><i class="fa fa-times"></i> Cancel</button>
+                    <br /><br />
+                    <button data-role="button" data-bind="events: { click: help_button_click }" class="heading_4 k-button include_spaces"><i class="fa fa-help-with-circle"></i> Help</button>
+                    <button data-role="button" data-bind="events: { click: about_button_click }" class="heading_4 k-button include_spaces"><i class="fa fa-info-circle"></i> About</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About Window -->
+    <div id="about_window">
+        <span class="heading_4">Version:</span>
+        <span data-bind="html: app_version" class="heading_4"></span>
+        <br />
+        <span class="heading_4">Copyright @ 2016-2017 EleMech, Inc.</span>
+        <br />
+        <span class="heading_4">All rights reserved.</span>
+    </div>
+    <!-- Help Window -->
+    <div id="help_window">
+        <table class="table_two_columns">
+            <tr>
+                <td>
+                    <span class="heading_3">Email:</span>
+                </td>
+                <td>
+                    <a href="mailto:adunsmoor@elemechinc.com?subject=EleMech%20Wiki%20-%20Help%20Needed" target="_top">adunsmoor@elemechinc.com</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
+
+<!-- Notes
+    **********************************************************************************************************************
+    transistions: slide, zoom, fade, overlay
+    **********************************************************************************************************************
+    <div id="left_pane_" data-role="view" data-model="APP.models.left_pane_home_screen" data-title="PLC's">
+        <div data-role="header">
+            <div data-role="navbar">
+                <button data-role="button" data-align="left" data-icon="arrow_left2" class="heading_4" onclick="left_pane.navigate('#:back');"></button>
+                <span data-role="view-title" class="heading_1 text-white"></span>
+            </div>
+        </div>
+        <ul data-role="listview" data-style="inset">
+            <li>
+                <a data-icon="3_cogs" data-id="2" data-bind="events: { click: topic_click }"></a>
+            </li>
+        </ul>
+    </div>
+    **********************************************************************************************************************
+
+ -->
