@@ -456,74 +456,130 @@ var app_skins = [
 ]
 
 // Global ajax Setup
+var ajax_timer;
 
-$(document).ajaxSend(function ajaxSend(event, jqXHR, ajaxSettings) {
-	try {	   
+$(document).ajaxStart(function ajaxStart() {
+    try {
+        clearTimeout(ajax_timer);
         app.showLoading();
-	}
-	catch (e) {
-		console.error(arguments.callee.name + " >> ERROR >> " + e.toString());
-	}
-});
+    }
+    catch (e) {
+        console.error(arguments.callee.name + " >> ERROR >> " + e.toString());
+        screen_popup_no_hide.error({ message: "Error: " + e.toString() });
+    }
+}); // when the first Ajax request begins
 
 $(document).ajaxError(function ajaxError(event, jqXHR, ajaxSettings, thrownError) {
-	try {
-		var debug = false;
-	   
-		var msg = '';
-		var url = ajaxSettings.url;
-		var response = jqXHR.responseText;
+    try {
+        var url = ajaxSettings.url;
+        var http_status_code = jqXHR.status;
+        var response = jqXHR.responseText;
+        var message = "";
+        if (isJson(response)) {
+            var json_obj = JSON.parse(response);
+            if (json_obj.hasOwnProperty("message")) {
+                message = "  " + json_obj.message;
+            }
+            else if (json_obj.hasOwnProperty("description")) {
+                message = json_obj.description;
+            }
+        }
+        var error_str = "";
 
-        // 1. get error information
-        if (jqXHR.status === 0) {
-            msg = 'No connection.';
+        // 1. handle HTTP status code
+        switch (http_status_code) {
+            case 0: {
+                error_str = "No Connection.  Cannot connect to " + new URL(url).hostname + ".";
+                break;
+            }   // No Connection
+            case 400: {
+                if (message) {
+                    var pos = message.indexOf("The particular issue is: ");
+                    if (pos > -1) {
+                        message = message.substring(pos + 25, message.length);
+                    }
+                    error_str = "Bad Request.  " + message;
+                }
+                else {
+                    error_str = "Bad Request.  Please see help.";
+                }
+                break;
+            }   // Bad Request
+            case 401: {
+                error_str = "Unauthorized." + message + "  Please see help.";
+                break;
+            }   // Unauthorized
+            case 402: {
+                error_str = "Request Failed." + message;
+                break;
+            }   // Request Failed
+            case 404: {
+                error_str = "Not Found." + message + "  Please see help.";
+                break;
+            }   // Not Found
+            case 405: {
+                error_str = "Method Not Allowed." + message + "  Please see help.";
+                break;
+            }   // Method Not Allowed
+            case 409: {
+                error_str = "Conflict." + message + "  Please see help.";
+                break;
+            }   // Conflict
+            case 429: {
+                error_str = "Too Many Requests." + message + "  Please try again later.";
+                break;
+            }   // Too Many Requests
+            case 500: {
+                if (message) {
+                    error_str = message;
+                }
+                else {
+                    error_str = "Internal Server Error.  Please see help.";
+                }
+                break;
+            }   // Internal Server Error
+            case 502: {
+                error_str = "Bad Gateway." + message + "  Please see help.";
+                break;
+            }   // Bad Gateway
+            case 503: {
+                error_str = "Service Unavailable." + message + "  Please see help.";
+                break;
+            }   // Service Unavailable
+            case 504: {
+                error_str = "Gateway Timeout." + message + "  Please see help.";
+                break;
+            }   // Gateway Timeout
+            default: {
+                console.error(arguments.callee.name + " >> http_status_code unhandled >> http_status_code = " + http_status_code);
+                error_str = "Unknown Error." + message + "  Please see help.";
+                break;
+            }
         }
-        else if (jqXHR.status === 404) {
-            msg = 'Requested page not found. [404]';
-        }
-        else if (jqXHR.status === 500) {
-            msg = 'Internal Server Error [500].';
-        }
-        else if (thrownError === 'parsererror') {
-            msg = 'Requested JSON parse failed.';
-        }
-        else if (thrownError === 'timeout') {
-            msg = 'Time out error.';
-        }
-        else if (thrownError === 'abort') {
-            msg = 'Ajax request aborted.';
-        }
-        else {
-            msg = 'Uncaught Error = ' + response;
-        }
-        console.error(arguments.callee.name + " >> ERROR >> " + msg + "; URL = " + url + "; Response = " + response);
 
-	    // 2. handle URLs
-        if (response.length > 100) {
-            screen_popup.error("Internal Error.  Please see help.");
-            return;
-        }   // do not show huge error messages
-        else {
-            screen_popup.error(msg);
-        }
+        // 2. show popup
+        screen_popup_no_hide.error({ message: error_str });
+        console.error(arguments.callee.name + " >> http_status_code = " + http_status_code.toString() + "; thrownError = " + thrownError + "; URL = " + url + "; Response = " + response);
+
     }
-	catch (e) {
-		console.error(arguments.callee.name + " >> ERROR >> " + e.toString());
-	}
+    catch (e) {
+        console.error(arguments.callee.name + " >> ERROR >> " + e.toString());
+        screen_popup_no_hide.error({ message: "Error: " + e.toString() });
+    }
 });
 
-$(document).ajaxComplete(function ajaxComplete(event, jqXHR, ajaxSettings) {
-	try {
-		var debug = false;
-	   
-		if (debug) console.log(arguments.callee.name + " >> URL = " + ajaxSettings.url + "; Response = " + jqXHR.responseText);
-     
-        app.hideLoading();
-	}
-	catch (e) {
-		console.error(arguments.callee.name + " >> ERROR >> " + e.toString());
-	}
-});
+$(document).ajaxStop(function ajaxStop() {
+    try {
+        // delay to avoid loading icon disappearing and reappearing quickly
+        ajax_timer = setTimeout(function () {
+            app.hideLoading();
+        }, 250);
+    }
+    catch (e) {
+        console.error(arguments.callee.name + " >> ERROR >> " + e.toString());
+        screen_popup_no_hide.error({ message: "Error: " + e.toString() });
+    }
+}); // when all Ajax requests have completed
 
 /////// Miscellaneous ///////
 

@@ -7,9 +7,11 @@
 var app, router, online = false, local_storage_used = false, check_online_interval, user_id, role;
 var main_pane_search_screen_listview_index = 0;
 /******* Popups, Windows, & Dialogs *******/
-var screen_popup, screen_popup_no_hide, login_window, fun_window, help_window, about_window, main_pane_customer_information_details_window, logout_dialog;
+var screen_popup, screen_popup_no_hide, login_window, help_window, about_window, main_pane_customer_information_details_window, logout_dialog;
 /******* Panes *******/
 var left_pane, main_pane, right_pane;
+/******* Kinvey *******/
+var kinvey_WikiTopics;
 
 /******************************** Main Code ***********************************/
 
@@ -269,7 +271,6 @@ window.APP = {
                                 var screen = main_pane.view().id;
                                 if (screen == "#main_pane_blank") {
                                     login_window.close();
-                                    fun_window.close();
                                     main_pane.navigate("#main_pane_home_screen");
                                 }
                             }
@@ -323,7 +324,6 @@ window.APP = {
 						                $("#login_window_user_name").focus();
 						            }
 						        }
-						        fun_window.open().maximize();
 						        login_window.open().center();
 
 						        // 3. log out of chat
@@ -525,13 +525,13 @@ window.APP = {
         /******************** Main Pane ********************/
         main_pane_home_screen: kendo.observable({
             topics_ds: new kendo.data.DataSource({
-                type: 'everlive',
+                type: "kinvey",
                 transport: {
-                    typeName: "Topics"
+                    typeName: "WikiTopics"
                 },
                 schema: {
                     model: {
-                        id: Everlive.idField,
+                        id: "_id",
                         fields: {
                             Id: { editable: false },
                             CreatedAt: { editable: false },
@@ -765,13 +765,13 @@ window.APP = {
             search_words_10: "", search_word_in_use_10: false,
             // dataSource
             topics_ds: new kendo.data.DataSource({
-                type: 'everlive',
+                type: "kinvey",
                 transport: {
-                    typeName: "Topics"
+                    typeName: "WikiTopics"
                 },
                 schema: {
                     model: {
-                        id: Everlive.idField,
+                        id: "_id",
                         fields: {
                             Id: { editable: false },
                             CreatedAt: { editable: false },
@@ -792,13 +792,13 @@ window.APP = {
                 serverFiltering: true,
             }),
             topic_tags_ds: new kendo.data.DataSource({
-                type: 'everlive',
+                type: "kinvey",
                 transport: {
                     typeName: "TopicTags"
                 },
                 schema: {
                     model: {
-                        id: Everlive.idField,
+                        id: "_id",
                         fields: {
                             Id: { editable: false },
                             CreatedAt: { editable: false },
@@ -1272,13 +1272,13 @@ window.APP = {
         }),
         main_pane_edit_quicklinks_screen: kendo.observable({
             quicklinks_ds: new kendo.data.DataSource({
-                type: 'everlive',
+                type: "kinvey",
                 transport: {
-                    typeName: "Topics"
+                    typeName: "WikiTopics"
                 },
                 schema: {
                     model: {
-                        id: Everlive.idField,
+                        id: "_id",
                         fields: {
                             Id: { editable: false },
                             CreatedAt: { editable: false },
@@ -1299,13 +1299,13 @@ window.APP = {
                 serverFiltering: true,
             }),
             topics_ds: new kendo.data.DataSource({
-                type: 'everlive',
+                type: "kinvey",
                 transport: {
-                    typeName: "Topics"
+                    typeName: "WikiTopics"
                 },
                 schema: {
                     model: {
-                        id: Everlive.idField,
+                        id: "_id",
                         fields: {
                             Id: { editable: false },
                             CreatedAt: { editable: false },
@@ -1496,13 +1496,13 @@ window.APP = {
                     var parent_id = e.data.id;
                     var grid = $("<div/>").appendTo(e.detailCell).kendoGrid({
                         dataSource: {
-                            type: 'everlive',
+                            type: "kinvey",
                             transport: {
                                 typeName: 'SubThreads'
                             },
                             schema: {
                                 model: {
-                                    id: Everlive.idField,
+                                    id: "_id",
                                     fields: {
                                         Name: { editable: true, validation: { required: true } },
                                         ParentThread: { editable: true },
@@ -1572,13 +1572,13 @@ window.APP = {
                     var parent_id = e.data.id;
                     var grid = $("<div/>").appendTo(e.detailCell).kendoGrid({
                         dataSource: {
-                            type: 'everlive',
+                            type: "kinvey",
                             transport: {
                                 typeName: 'SubThreads1'
                             },
                             schema: {
                                 model: {
-                                    id: Everlive.idField,
+                                    id: "_id",
                                     fields: {
                                         Name: { editable: true, validation: { required: true } },
                                         ParentThread: { editable: true },
@@ -1648,13 +1648,13 @@ window.APP = {
                     var parent_id = e.data.id;
                     var grid = $("<div/>").appendTo(e.detailCell).kendoGrid({
                         dataSource: {
-                            type: 'everlive',
+                            type: "kinvey",
                             transport: {
                                 typeName: 'SubThreads2'
                             },
                             schema: {
                                 model: {
-                                    id: Everlive.idField,
+                                    id: "_id",
                                     fields: {
                                         Name: { editable: true, validation: { required: true } },
                                         ParentThread: { editable: true },
@@ -2206,13 +2206,13 @@ window.APP = {
                     var parent_id = e.data.id;
                     var grid = $("<div/>").appendTo(e.detailCell).kendoGrid({
                         dataSource: {
-                            type: 'everlive',
+                            type: "kinvey",
                             transport: {
-                                typeName: "Topics"
+                                typeName: "WikiTopics"
                             },
                             schema: {
                                 model: {
-                                    id: Everlive.idField,
+                                    id: "_id",
                                     fields: {
                                         Id: { editable: false },
                                         CreatedAt: { editable: false },
@@ -2386,13 +2386,13 @@ window.APP = {
                     var parent_id = e.data.id;
                     var grid = $("<div/>").appendTo(e.detailCell).kendoGrid({
                         dataSource: {
-                            type: 'everlive',
+                            type: "kinvey",
                             transport: {
-                                typeName: "Topics"
+                                typeName: "WikiTopics"
                             },
                             schema: {
                                 model: {
-                                    id: Everlive.idField,
+                                    id: "_id",
                                     fields: {
                                         Id: { editable: false },
                                         CreatedAt: { editable: false },
@@ -2563,13 +2563,13 @@ window.APP = {
                     var parent_id = e.data.id;
                     var grid = $("<div/>").appendTo(e.detailCell).kendoGrid({
                         dataSource: {
-                            type: 'everlive',
+                            type: "kinvey",
                             transport: {
-                                typeName: "Topics"
+                                typeName: "WikiTopics"
                             },
                             schema: {
                                 model: {
-                                    id: Everlive.idField,
+                                    id: "_id",
                                     fields: {
                                         Id: { editable: false },
                                         CreatedAt: { editable: false },
@@ -2740,13 +2740,13 @@ window.APP = {
                     var parent_id = e.data.id;
                     var grid = $("<div/>").appendTo(e.detailCell).kendoGrid({
                         dataSource: {
-                            type: 'everlive',
+                            type: "kinvey",
                             transport: {
-                                typeName: "Topics"
+                                typeName: "WikiTopics"
                             },
                             schema: {
                                 model: {
-                                    id: Everlive.idField,
+                                    id: "_id",
                                     fields: {
                                         Id: { editable: false },
                                         CreatedAt: { editable: false },
@@ -2949,13 +2949,13 @@ window.APP = {
         main_pane_topic_tags_screen: kendo.observable({
             title: "", item_id: "", tags: null,
             topic_tags_ds: new kendo.data.DataSource({
-                type: 'everlive',
+                type: "kinvey",
                 transport: {
                     typeName: "TopicTags"
                 },
                 schema: {
                     model: {
-                        id: Everlive.idField,
+                        id: "_id",
                         fields: {
                             Id: { editable: false },
                             CreatedAt: { editable: false },
@@ -3297,13 +3297,13 @@ window.APP = {
         /******************** Left Pane ********************/
         left_pane_home_screen: kendo.observable({
             topics_ds: new kendo.data.DataSource({
-                type: "everlive",
+                type: "kinvey",
                 transport: {
-                    typeName: "Topics"
+                    typeName: "WikiTopics"
                 },
                 schema: {
                     model: {
-                        id: Everlive.idField,
+                        id: "_id",
                         fields: {
                             Id: { editable: false },
                             CreatedAt: { editable: false },
@@ -3462,13 +3462,13 @@ window.APP = {
         left_pane_subtopics_1: kendo.observable({
             item_id: "",
             topics_ds: new kendo.data.DataSource({
-                type: "everlive",
+                type: "kinvey",
                 transport: {
-                    typeName: "Topics"
+                    typeName: "WikiTopics"
                 },
                 schema: {
                     model: {
-                        id: Everlive.idField,
+                        id: "_id",
                         fields: {
                             Id: { editable: false },
                             CreatedAt: { editable: false },
@@ -3635,13 +3635,13 @@ window.APP = {
         left_pane_subtopics_2: kendo.observable({
             item_id: "",
             topics_ds: new kendo.data.DataSource({
-                type: "everlive",
+                type: "kinvey",
                 transport: {
-                    typeName: "Topics"
+                    typeName: "WikiTopics"
                 },
                 schema: {
                     model: {
-                        id: Everlive.idField,
+                        id: "_id",
                         fields: {
                             Id: { editable: false },
                             CreatedAt: { editable: false },
@@ -3808,13 +3808,13 @@ window.APP = {
         left_pane_subtopics_3: kendo.observable({
             item_id: "",
             topics_ds: new kendo.data.DataSource({
-                type: "everlive",
+                type: "kinvey",
                 transport: {
-                    typeName: "Topics"
+                    typeName: "WikiTopics"
                 },
                 schema: {
                     model: {
-                        id: Everlive.idField,
+                        id: "_id",
                         fields: {
                             Id: { editable: false },
                             CreatedAt: { editable: false },
@@ -3981,13 +3981,13 @@ window.APP = {
         left_pane_subtopics_4: kendo.observable({
             item_id: "",
             topics_ds: new kendo.data.DataSource({
-                type: "everlive",
+                type: "kinvey",
                 transport: {
-                    typeName: "Topics"
+                    typeName: "WikiTopics"
                 },
                 schema: {
                     model: {
-                        id: Everlive.idField,
+                        id: "_id",
                         fields: {
                             Id: { editable: false },
                             CreatedAt: { editable: false },
@@ -4192,6 +4192,9 @@ $(window).unload(function () {
 
 function app_init() {  // this function runs once, on ready
     try {
+        var debug = false;
+        var loc = "app_init >> ";
+
         app.showLoading();
 
         console.log(loc + "App Initializing >> app_version = " + app_version + "; app_testing = " + app_testing.toString() + "; kendo version = " + kendo.version);
@@ -4227,33 +4230,6 @@ function app_init() {  // this function runs once, on ready
             autoHideAfter: 0,
             button: true,
         }).data("kendoNotification");
-        fun_window = $("#fun_window").kendoWindow({
-            height: "400px", width: "600px",
-            title: false,
-            open: function () {
-                // Blockrain
-                $("#tetris").blockrain({
-                    theme: "modern",
-                    autoBlockWidth: true,
-                    autoplay: true,
-                    autoplayRestart: true,
-                    'custom': {
-                        background: '#040304',
-                        backgroundGrid: '#000',
-                        complexBlocks: {
-                            line: ['assets/blocks/custom/line.png', 'assets/blocks/custom/line.png'],
-                            square: 'assets/blocks/custom/square.png',
-                            arrow: 'assets/blocks/custom/arrow.png',
-                            rightHook: 'assets/blocks/custom/rightHook.png',
-                            leftHook: 'assets/blocks/custom/leftHook.png',
-                            rightZag: 'assets/blocks/custom/rightZag.png',
-                            leftZag: 'assets/blocks/custom/leftZag.png'
-                        }
-                    }
-                });
-            },
-        }).data("kendoWindow");
-        fun_window.open().maximize();
         $("#login_window").kendoWindow({
             height: "340px", width: "280px",
             title: "EleMech Wiki",
@@ -4319,13 +4295,13 @@ function app_init() {  // this function runs once, on ready
         // Initialize
         $("#main_pane_edit_topics_screen_grid").kendoGrid({
             dataSource: {
-                type: 'everlive',
+                type: "kinvey",
                 transport: {
-                    typeName: "Topics"
+                    typeName: "WikiTopics"
                 },
                 schema: {
                     model: {
-                        id: Everlive.idField,
+                        id: "_id",
                         fields: {
                             Id: { editable: false },
                             CreatedAt: { type: "date", editable: false },
@@ -4474,13 +4450,13 @@ function app_init() {  // this function runs once, on ready
         });
         $("#main_pane_troubleshooting_screen_grid").kendoGrid({
             dataSource: {
-                type: 'everlive',
+                type: "kinvey",
                 transport: {
                     typeName: 'Threads'
                 },
                 schema: {
                     model: {
-                        id: Everlive.idField,
+                        id: "_id",
                         fields: {
                             Name: { editable: true, validation: { required: true } },
                             CreatedAt: { editable: false },
@@ -4533,13 +4509,13 @@ function app_init() {  // this function runs once, on ready
         });
         $("#main_pane_edit_topic_tags_screen_grid").kendoGrid({
             dataSource: {
-                type: 'everlive',
+                type: "kinvey",
                 transport: {
                     typeName: "TopicTags"
                 },
                 schema: {
                     model: {
-                        id: Everlive.idField,
+                        id: "_id",
                         fields: {
                             CreatedAt: { editable: false },
                             ModifiedAt: { editable: false },
@@ -4704,13 +4680,13 @@ function app_init() {  // this function runs once, on ready
         // E.X data >> {"shapes":[{"id":"v5i4Wd9Cuj","hover":{"opacity":0.2},"cursor":"pointer","content":{"align":"center middle","color":"#2e2e2e","template":"#= dataItem.Title #","fontSize":17,"text":"Testing 123"},"selectable":true,"serializable":true,"enable":true,"type":"rectangle","path":"","autoSize":true,"x":50,"y":50,"minWidth":20,"minHeight":20,"width":240,"height":67,"editable":{"connect":true,"tools":[],"drag":{"snap":{"size":10,"angle":10}},"remove":true},"connectors":[{"name":"Top"},{"name":"Bottom"},{"name":"Left"},{"name":"Right"},{"name":"Auto"}],"rotation":{"angle":0},"stroke":{"width":0},"fill":{"color":"#e15613"},"connectorDefaults":{"fill":{"color":"#282828"},"stroke":{"color":"#fff"},"hover":{"fill":{"color":"#fff"},"stroke":{"color":"#282828"}}},"undoable":true,"dataItem":{"id":0,"Title":"Testing 123","Color":"red","__kendo_devtools_id":195}}],"connections":[]}
         $("#main_pane_topic_diagram_diagram").kendoDiagram({
             dataSource: {
-                type: "everlive",
+                type: "kinvey",
                 transport: {
                     typeName: "TopicDiagrams"
                 },
                 schema: {
                     model: {
-                        id: Everlive.idField,
+                        id: "_id",
                         fields: {
                             CreatedAt: { type: "date", editable: false },
                             ModifiedAt: { type: "date", editable: false },
@@ -4794,426 +4770,46 @@ function app_init() {  // this function runs once, on ready
             },
         });
 
-        // Method 2: using CRUD
-        //var shapesDataSource = {
-        //    batch: false,
-        //    transport: {
-        //        read: {
-        //            url: "DiagramShapes",
-        //            dataType: "jsonp"
-        //        },
-        //        update: {
-        //            url: "DiagramShapes/Update",
-        //            dataType: "jsonp"
-        //        },
-        //        destroy: {
-        //            url: "DiagramShapes/Destroy",
-        //            dataType: "jsonp"
-        //        },
-        //        create: {
-        //            url: "DiagramShapes/Create",
-        //            dataType: "jsonp"
-        //        },
-        //        parameterMap: function (options, operation) {
-        //            if (operation !== "read") {
-        //                return { models: kendo.stringify(options.models || [options]) };
-        //            }
-        //        }
-        //    },
-        //    schema: {
-        //        model: {
-        //            id: "id",
-        //            fields: {
-        //                id: { from: "Id", type: "number", editable: false },
-        //                JobTitle: { type: "string" },
-        //                Color: { type: "string" }
-        //            }
-        //        }
-        //    }
-        //};
-        //var connectionsDataSource = {
-        //    batch: false,
-        //    transport: {
-        //        read: {
-        //            url: "DiagramConnections",
-        //            dataType: "jsonp"
-        //        },
-        //        update: {
-        //            url: "DiagramConnections/Update",
-        //            dataType: "jsonp"
-        //        },
-        //        destroy: {
-        //            url: "DiagramConnections/Destroy",
-        //            dataType: "jsonp"
-        //        },
-        //        create: {
-        //            url: "DiagramConnections/Create",
-        //            dataType: "jsonp"
-        //        },
-        //        parameterMap: function (options, operation) {
-        //            if (operation !== "read") {
-        //                return { models: kendo.stringify(options.models || [options]) };
-        //            }
-        //        }
-        //    },
-        //    schema: {
-        //        model: {
-        //            id: "id",
-        //            fields: {
-        //                id: { from: "Id", type: "number", editable: false },
-        //                from: { from: "FromShapeId", type: "number" },
-        //                to: { from: "ToShapeId", type: "number" },
-        //                fromX: { from: "FromPointX", type: "number" },
-        //                fromY: { from: "FromPointY", type: "number" },
-        //                toX: { from: "ToPointX", type: "number" },
-        //                toY: { from: "ToPointY", type: "number" }
-        //            }
-        //        }
-        //    }
-        //};
-        //$("#main_pane_topic_diagram_diagram").kendoDiagram({
-        //    dataSource: shapesDataSource,
-        //    connectionsDataSource: connectionsDataSource,
-        //    layout: {
-        //        type: "tree",
-        //        subtype: "tipover",
-        //        underneathHorizontalOffset: 140
-        //    },
-        //    shapeDefaults: {
-        //        visual: function visualTemplate(options) {
-        //            var dataviz = kendo.dataviz;
-        //            var g = new dataviz.diagram.Group();
-        //            var dataItem = options.dataItem;
-        //            if (dataItem.JobTitle === "President") {
-        //                g.append(new dataviz.diagram.Circle({
-        //                    radius: 60,
-        //                    stroke: {
-        //                        width: 2,
-        //                        color: dataItem.Color || "#586477"
-        //                    },
-        //                    fill: "#e8eff7"
-        //                }));
-        //            } else {
-        //                g.append(new dataviz.diagram.Rectangle({
-        //                    width: 240,
-        //                    height: 67,
-        //                    stroke: {
-        //                        width: 0
-        //                    },
-        //                    fill: "#e8eff7"
-        //                }));
-        //                g.append(new dataviz.diagram.Rectangle({
-        //                    width: 8,
-        //                    height: 67,
-        //                    fill: dataItem.Color,
-        //                    stroke: {
-        //                        width: 0
-        //                    }
-        //                }));
-        //            }
-        //            return g;
-        //        },
-        //        content: {
-        //            template: "#= dataItem.JobTitle #",
-        //            fontSize: 17
-        //        }
-        //    },
-        //    connectionDefaults: {
-        //        stroke: {
-        //            color: "#586477",
-        //            width: 2
-        //        }
-        //    },
-        //    dataBound: function onDataBound(e) {
-        //        var that = this;
-        //        setTimeout(function () {
-        //            that.bringIntoView(that.shapes);
-        //        }, 0);
-        //    },
-        //});
+        // Kinvey Setup
+        if (navigator.onLine) {
+            try {
+                // Kinvey Setup
+                Kinvey.initialize({
+                    appKey: kinvey_appKey,
+                    appSecret: kinvey_appSecret
+                })
+                    .then(function (client) {
+                        console.info(loc + "kinvey initialized");
 
-        //Method 3: using everlive
-        //var shapesDataSource = {
-        //    type: "everlive",
-        //    transport: {
-        //        typeName: "TopicDiagrams"
-        //    },
-        //    schema: {
-        //        model: {
-        //            id: Everlive.idField,
-        //            fields: {
-        //                CreatedAt: { type: "date", editable: false },
-        //                ModifiedAt: { type: "date", editable: false },
-        //                Owner: { editable: false },
-        //                Title: { type: "string", editable: true },
-        //                Color: { type: "string", editable: true },
-        //            }
-        //        }
-        //    }
-        //};
-        //var connectionsDataSource = {
-        //    type: "everlive",
-        //    transport: {
-        //        typeName: "TopicDiagrams"
-        //    },
-        //    schema: {
-        //        model: {
-        //            id: Everlive.idField,
-        //            fields: {
-        //                id: { from: "Id", type: "number", editable: false },
-        //                from: { from: "FromShapeId", type: "number" },
-        //                to: { from: "ToShapeId", type: "number" },
-        //                fromX: { from: "FromPointX", type: "number" },
-        //                fromY: { from: "FromPointY", type: "number" },
-        //                toX: { from: "ToPointX", type: "number" },
-        //                toY: { from: "ToPointY", type: "number" }
-        //            }
-        //        }
-        //    }
-        //};
-        //$("#main_pane_topic_diagram_diagram").kendoDiagram({
-        //    dataSource: shapesDataSource,
-        //    connectionsDataSource: connectionsDataSource,
-        //    layout: {
-        //        type: "tree",
-        //        subtype: "tipover",
-        //        underneathHorizontalOffset: 140
-        //    },
-        //    shapeDefaults: {
-        //        visual: function visualTemplate(options) {
-        //            var dataviz = kendo.dataviz;
-        //            var g = new dataviz.diagram.Group();
-        //            var dataItem = options.dataItem;
-        //            g.append(new dataviz.diagram.Rectangle({
-        //                width: 240,
-        //                height: 67,
-        //                stroke: {
-        //                    width: 0
-        //                },
-        //                fill: "#e8eff7"
-        //            }));
-        //            g.append(new dataviz.diagram.Rectangle({
-        //                width: 8,
-        //                height: 67,
-        //                fill: dataItem.Color,
-        //                stroke: {
-        //                    width: 0
-        //                }
-        //            }));
-        //            return g;
-        //        },
-        //        content: {
-        //            template: "#= dataItem.Title #",
-        //            fontSize: 17
-        //        }
-        //    },
-        //    connectionDefaults: {
-        //        stroke: {
-        //            color: "#586477",
-        //            width: 2
-        //        }
-        //    },
-        //    editable: {
-        //        tools: [
-        //            {
-        //                name: "createShape"
-        //            },
-        //            {
-        //                name: "createConnection"
-        //            },
-        //            {
-        //                name: "undo"
-        //            },
-        //            {
-        //                name: "redo"
-        //            },
-        //        ]
-        //    },
-        //    pdf: {
-        //        author: "EleMech, Inc.",
-        //        creator: "EleMech, Inc.",
-        //        fileName: "EleMech Wiki Diagram.pdf",
-        //        keywords: "EleMech Wiki Diagram",
-        //        subject: "Diagram",
-        //        title: "Diagram",
-        //        landscape: true,
-        //        margin: {
-        //            left: "0.5in",
-        //            right: "0.5in",
-        //            top: "1in",
-        //            bottom: "1in"
-        //        },
-        //    },
-        //});
+                        kinvey_WikiTopics = Kinvey.DataStore.collection("WikiTopics", Kinvey.DataStoreType.Network);
 
-        // Method 4: using custom CRUD
-        //var shapesDataSource = {
-        //    batch: false,
-        //    transport: {
-        //        read: function (e) {
-        //            e.success();
-        //        },
-        //        update: function (e) {
-        //            e.success();
-        //        },
-        //        destroy: function (e) {
-        //            e.success();
-        //        },
-        //        create: function (e) {
-        //            e.success();
-        //        },
-        //    },
-        //    schema: {
-        //        model: {
-        //            id: "id",
-        //            fields: {
-        //                id: { from: "Id", type: "number", editable: false },
-        //                JobTitle: { type: "string" },
-        //                Color: { type: "string" }
-        //            }
-        //        }
-        //    }
-        //};
-        //var connectionsDataSource = {
-        //    batch: false,
-        //    transport: {
-        //        read: function (e) {
-        //            e.success();
-        //        },
-        //        update: function (e) {
-        //            e.success();
-        //        },
-        //        destroy: function (e) {
-        //            e.success();
-        //        },
-        //        create: function (e) {
-        //            e.success();
-        //        },
-        //    },
-        //    schema: {
-        //        model: {
-        //            id: "id",
-        //            fields: {
-        //                id: { from: "Id", type: "number", editable: false },
-        //                from: { from: "FromShapeId", type: "number" },
-        //                to: { from: "ToShapeId", type: "number" },
-        //                fromX: { from: "FromPointX", type: "number" },
-        //                fromY: { from: "FromPointY", type: "number" },
-        //                toX: { from: "ToPointX", type: "number" },
-        //                toY: { from: "ToPointY", type: "number" }
-        //            }
-        //        }
-        //    }
-        //};
-        //$("#main_pane_topic_diagram_diagram").kendoDiagram({
-        //    dataSource: shapesDataSource,
-        //    connectionsDataSource: connectionsDataSource,
-        //    layout: {
-        //        type: "tree",
-        //        subtype: "tipover",
-        //        underneathHorizontalOffset: 140
-        //    },
-        //    shapeDefaults: {
-        //        visual: function visualTemplate(options) {
-        //            var dataviz = kendo.dataviz;
-        //            var g = new dataviz.diagram.Group();
-        //            var dataItem = options.dataItem;
-        //            g.append(new dataviz.diagram.Rectangle({
-        //                width: 240,
-        //                height: 67,
-        //                stroke: {
-        //                    width: 0
-        //                },
-        //                fill: "#e8eff7"
-        //            }));
-        //            g.append(new dataviz.diagram.Rectangle({
-        //                width: 8,
-        //                height: 67,
-        //                fill: dataItem.Color,
-        //                stroke: {
-        //                    width: 0
-        //                }
-        //            }));
-        //            return g;
-        //        },
-        //        content: {
-        //            template: "#= dataItem.Title #",
-        //            fontSize: 17
-        //        }
-        //    },
-        //    connectionDefaults: {
-        //        stroke: {
-        //            color: "#586477",
-        //            width: 2
-        //        }
-        //    },
-        //    editable: {
-        //        tools: [
-        //            {
-        //                name: "createShape"
-        //            },
-        //            {
-        //                name: "createConnection"
-        //            },
-        //            {
-        //                name: "undo"
-        //            },
-        //            {
-        //                name: "redo"
-        //            },
-        //        ]
-        //    },
-        //    pdf: {
-        //        author: "EleMech, Inc.",
-        //        creator: "EleMech, Inc.",
-        //        fileName: "EleMech Wiki Diagram.pdf",
-        //        keywords: "EleMech Wiki Diagram",
-        //        subject: "Diagram",
-        //        title: "Diagram",
-        //        landscape: true,
-        //        margin: {
-        //            left: "0.5in",
-        //            right: "0.5in",
-        //            top: "1in",
-        //            bottom: "1in"
-        //        },
-        //    },
-        //});
-
-        // skip login
-        if (skip_login) {
-            setTimeout(function () {
-                $("#login_window_user_name").val("admin");
-                $("#login_window_password").val("wikifire");
-                APP.models.login_window.submit_button_click();
-            }, 500);
-        }
-
-        // check internet
-        try {
-            // will throw exception if script source was not downloaded
-            el = new Everlive({ appId: el_app_id, scheme: 'https' });
-            online = true;
-            console.log("Browser has internet.");
-        }
-        catch (e) {
-            online = false;
-            console.log("Browser does not have internet.");
-        }
-
-        // Converse Chat
-        if (chat_used) {
-            converse.plugins.add("wiki_chat_plugin", {
-                initialize: function () {
-                    window.converse_logout = function () {
-                        this._converse.logout();
-                    }
-                },
-                logout: function () {
-                    this._converse.api.user.logout();
-                    console.log("user logged out of chat");
-                },
-            });
+                        // Login
+                        if (ldap_auto_login_used) {
+                            // TODO
+                        }
+                        else {
+                            if (skip_login) {
+                                setTimeout(function () {
+                                    $("#login_window_user_name").val("admin");
+                                    $("#login_window_password").val("wikifire");
+                                    APP.models.login_window.submit_button_click();
+                                }, 500);
+                            }
+                        }
+                    })
+                    .catch(function (error) {
+                        console.error(loc + "kinvey failed to initialize; error = " + JSON.stringify(error));
+                    });
+                Kinvey.ping()
+                    .then(function (response) {
+                        console.log('Kinvey Ping Success. Kinvey Service is alive, version: ' + response.version + ', response: ' + response.kinvey);
+                    })
+                    .catch(function (error) {
+                        console.log('Kinvey Ping Failed. Response: ' + error.description);
+                    });
+            } catch (e) {
+                console.error(arguments.callee.name + " >> ERROR >> " + e.toString());
+            }
         }
 
         app.hideLoading();
@@ -5228,7 +4824,7 @@ function app_init() {  // this function runs once, on ready
 
 app = new kendo.mobile.Application($(document.body), {
     initial: "main_splitter",
-    skin: "default",
+    skin: "bootstrap",
     statusBarStyle: "black-translucent",
     init: app_init,
 });

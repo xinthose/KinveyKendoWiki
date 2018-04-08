@@ -8,15 +8,15 @@
 <head>
     <title>EleMech Wiki</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="Adam Dunsmoor <adamdunsmoor@unseen.is>">
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <meta name="theme-color" content="#ffffff">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
     <!-------- Kendo Sources (Order Matters!) ---------->
     <!-- CSS -->
-    <!--<link href="kendo/styles/kendo.common-bootstrap.min.css" rel="stylesheet" />
-    <link href="kendo/styles/kendo.bootstrap.min.css" rel="stylesheet" />-->
-    <link href="kendo/styles/kendo.common.min.css" rel="stylesheet" />
-    <link href="kendo/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.common-bootstrap.min.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.bootstrap.min.css" rel="stylesheet" />
     <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
     <!-- JS -->
     <script src="kendo/js/jquery.min.js"></script>
@@ -25,26 +25,34 @@
     <script src="kendo/js/jszip.min.js"></script>
 
     <!-------- Outside Script ---------->
+    <!-- Time/Date -->
     <script src="osrc/moment.min.js"></script>
+    <!-- PDF/Excel Export -->
     <script src="osrc/pako_deflate.min.js"></script>
-    <script src="https://bs-static.cdn.telerik.com/latest/everlive.all.min.js"></script>
-    <link href="osrc/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
-    <script src="https://use.fortawesome.com/dc0da9b8.js"></script>
-    <!--<link href="osrc/kit-portalogic-dc0da9b8/css/external-min.css" rel="stylesheet" />-->
+    <!-- Report Viewer -->
+    <script src="osrc/telerikReportViewer-11.0.17.227.min.js"></script>
+    <!-- Effects/Animations -->
+    <link href="osrc/hover-min.css" rel="stylesheet" />
+    <!-- Kinvey -->
+    <script src="https://da189i1jfloii.cloudfront.net/js/kinvey-html5-sdk-3.9.9.min.js"></script>
+    <script src="osrc/kendo.data.kinvey.min.js"></script>
+    <!-- Fort Awesome -->
+    <!--<script src="https://use.fortawesome.com/dc0da9b8.js"></script>-->
+    <link href="osrc/kit-portalogic-dc0da9b8/css/external-min.css" rel="stylesheet" />
     <!-- Jquery UI -->
-    <link rel="stylesheet" href="osrc/jquery-ui-1.12.1/jquery-ui.min.css">
+    <link rel="stylesheet" href="osrc/jquery-ui-1.12.1/jquery-ui.min.css" />
     <script src="osrc/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-
     <!-- Bootstrap -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script src="osrc/bootstrap/popper.min.js"></script>
+    <link href="osrc/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <script src="osrc/bootstrap/bootstrap.min.js"></script>
+    <!-- Copy to Clipboard -->
+    <script src="osrc/clipboard.min.js"></script>
+    <!-- jQuery Idle (inactivity logout) -->
+    <script src="osrc/jquery.idle.min.js"></script>
     <!-- Converse Chat -->
     <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/css/converse.min.css">
-    <script src="https://cdn.conversejs.org/dist/converse.min.js"></script>    
-    <!-- Block Rain -->
-    <link rel="stylesheet" href="osrc/blockrain/blockrain.css">
-    <script src="osrc/blockrain/blockrain.jquery.js"></script>
+    <script src="https://cdn.conversejs.org/dist/converse.min.js"></script>
 
     <!-------- My Script (Order Matters!) ---------->
     <script src="src/config.js"></script>
@@ -53,7 +61,8 @@
     <link href="src/index.css" rel="stylesheet" />
 </head>
 <body>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwUbYm7L1fStIJowi7YebhLQxDRxzidgY&libraries=places&callback=initMaps" async defer></script>
+    <!-- Google Maps -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwUbYm7L1fStIJowi7YebhLQxDRxzidgY&libraries=places&callback=initMaps"></script>
 
     <!-- Main Splitter -->
     <div id="main_splitter" data-role="splitview">
@@ -183,7 +192,7 @@
                     <div class="row form-group justify-content-start">
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
                             <div class="card">
-                                <span class="heading_2 card-header">Quicklinks</span>                                
+                                <span class="heading_2 card-header">Quicklinks</span>
                                 <div class="card-body">
                                     <div class="custom_listview card-text" data-role="listview" data-template="quicklinks_template" data-bind="source: topics_ds"></div>
                                 </div>
@@ -504,7 +513,7 @@
                         <button data-role="button" data-id="#:idx#" data-bind="events: { click: remove_search_words } " class="heading_4 k-button"><i class="fa fa-trash"></i></button>
                     </div>
                 </div>
-            </script>            
+            </script>
             <!-- Header Layout -->
             <div data-role="layout" data-id="main_pane_header">
                 <div data-role="header">
