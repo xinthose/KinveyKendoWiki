@@ -533,12 +533,8 @@ window.APP = {
                     model: {
                         id: "_id",
                         fields: {
-                            Id: { editable: false },
-                            CreatedAt: { editable: false },
-                            ModifiedAt: { editable: false },
-                            Owner: { editable: false },
                             Content: { editable: true },
-                            Name: { editable: true },
+                            Name: { editable: true, validation: { required: true } },
                             Tags: { editable: true },
                             ParentTopicId: { editable: true },
                         }
@@ -773,12 +769,8 @@ window.APP = {
                     model: {
                         id: "_id",
                         fields: {
-                            Id: { editable: false },
-                            CreatedAt: { editable: false },
-                            ModifiedAt: { editable: false },
-                            Owner: { editable: false },
-                            Content: { editable: true, type: "string" },
-                            Name: { editable: true },
+                            Content: { editable: true },
+                            Name: { editable: true, validation: { required: true } },
                             Tags: { editable: true },
                             ParentTopicId: { editable: true },
                         }
@@ -800,11 +792,7 @@ window.APP = {
                     model: {
                         id: "_id",
                         fields: {
-                            Id: { editable: false },
-                            CreatedAt: { editable: false },
-                            ModifiedAt: { editable: false },
-                            Owner: { editable: false },
-                            Name: { editable: true },
+                            Name: { editable: true, validation: { required: true } },
                         }
                     }
                 },
@@ -1280,12 +1268,8 @@ window.APP = {
                     model: {
                         id: "_id",
                         fields: {
-                            Id: { editable: false },
-                            CreatedAt: { editable: false },
-                            ModifiedAt: { editable: false },
-                            Owner: { editable: false },
                             Content: { editable: true },
-                            Name: { editable: true },
+                            Name: { editable: true, validation: { required: true } },
                             Tags: { editable: true },
                             ParentTopicId: { editable: true },
                         }
@@ -1307,12 +1291,8 @@ window.APP = {
                     model: {
                         id: "_id",
                         fields: {
-                            Id: { editable: false },
-                            CreatedAt: { editable: false },
-                            ModifiedAt: { editable: false },
-                            Owner: { editable: false },
                             Content: { editable: true },
-                            Name: { editable: true },
+                            Name: { editable: true, validation: { required: true } },
                             Tags: { editable: true },
                             ParentTopicId: { editable: true },
                         }
@@ -1506,8 +1486,6 @@ window.APP = {
                                     fields: {
                                         Name: { editable: true, validation: { required: true } },
                                         ParentThread: { editable: true },
-                                        CreatedAt: { editable: false },
-                                        ModifiedAt: { editable: false },
                                     }
                                 }
                             },
@@ -1582,8 +1560,6 @@ window.APP = {
                                     fields: {
                                         Name: { editable: true, validation: { required: true } },
                                         ParentThread: { editable: true },
-                                        CreatedAt: { editable: false },
-                                        ModifiedAt: { editable: false },
                                     }
                                 }
                             },
@@ -1658,8 +1634,6 @@ window.APP = {
                                     fields: {
                                         Name: { editable: true, validation: { required: true } },
                                         ParentThread: { editable: true },
-                                        CreatedAt: { editable: false },
-                                        ModifiedAt: { editable: false },
                                     }
                                 }
                             },
@@ -2214,10 +2188,6 @@ window.APP = {
                                 model: {
                                     id: "_id",
                                     fields: {
-                                        Id: { editable: false },
-                                        CreatedAt: { editable: false },
-                                        ModifiedAt: { editable: false },
-                                        Owner: { editable: false },
                                         Content: { editable: true },
                                         Name: { editable: true, validation: { required: true } },
                                         Tags: { editable: true },
@@ -2394,10 +2364,6 @@ window.APP = {
                                 model: {
                                     id: "_id",
                                     fields: {
-                                        Id: { editable: false },
-                                        CreatedAt: { editable: false },
-                                        ModifiedAt: { editable: false },
-                                        Owner: { editable: false },
                                         Content: { editable: true },
                                         Name: { editable: true, validation: { required: true } },
                                         Tags: { editable: true },
@@ -2571,10 +2537,6 @@ window.APP = {
                                 model: {
                                     id: "_id",
                                     fields: {
-                                        Id: { editable: false },
-                                        CreatedAt: { editable: false },
-                                        ModifiedAt: { editable: false },
-                                        Owner: { editable: false },
                                         Content: { editable: true },
                                         Name: { editable: true, validation: { required: true } },
                                         Tags: { editable: true },
@@ -2748,10 +2710,6 @@ window.APP = {
                                 model: {
                                     id: "_id",
                                     fields: {
-                                        Id: { editable: false },
-                                        CreatedAt: { editable: false },
-                                        ModifiedAt: { editable: false },
-                                        Owner: { editable: false },
                                         Content: { editable: true },
                                         Name: { editable: true, validation: { required: true } },
                                         Tags: { editable: true },
@@ -2957,11 +2915,7 @@ window.APP = {
                     model: {
                         id: "_id",
                         fields: {
-                            Id: { editable: false },
-                            CreatedAt: { editable: false },
-                            ModifiedAt: { editable: false },
-                            Owner: { editable: false },
-                            Name: { editable: true },
+                            Name: { editable: true, validation: { required: true } },
                         }
                     }
                 },
@@ -3305,12 +3259,8 @@ window.APP = {
                     model: {
                         id: "_id",
                         fields: {
-                            Id: { editable: false },
-                            CreatedAt: { editable: false },
-                            ModifiedAt: { editable: false },
-                            Owner: { editable: false },
                             Content: { editable: true },
-                            Name: { editable: true },
+                            Name: { editable: true, validation: { required: true } },
                             Tags: { editable: true },
                             ParentTopicId: { editable: true },
                         }
@@ -3470,12 +3420,8 @@ window.APP = {
                     model: {
                         id: "_id",
                         fields: {
-                            Id: { editable: false },
-                            CreatedAt: { editable: false },
-                            ModifiedAt: { editable: false },
-                            Owner: { editable: false },
                             Content: { editable: true },
-                            Name: { editable: true },
+                            Name: { editable: true, validation: { required: true } },
                             Tags: { editable: true },
                             ParentTopicId: { editable: true },
                         }
@@ -3643,12 +3589,8 @@ window.APP = {
                     model: {
                         id: "_id",
                         fields: {
-                            Id: { editable: false },
-                            CreatedAt: { editable: false },
-                            ModifiedAt: { editable: false },
-                            Owner: { editable: false },
                             Content: { editable: true },
-                            Name: { editable: true },
+                            Name: { editable: true, validation: { required: true } },
                             Tags: { editable: true },
                             ParentTopicId: { editable: true },
                         }
@@ -3816,12 +3758,8 @@ window.APP = {
                     model: {
                         id: "_id",
                         fields: {
-                            Id: { editable: false },
-                            CreatedAt: { editable: false },
-                            ModifiedAt: { editable: false },
-                            Owner: { editable: false },
                             Content: { editable: true },
-                            Name: { editable: true },
+                            Name: { editable: true, validation: { required: true } },
                             Tags: { editable: true },
                             ParentTopicId: { editable: true },
                         }
@@ -3989,12 +3927,8 @@ window.APP = {
                     model: {
                         id: "_id",
                         fields: {
-                            Id: { editable: false },
-                            CreatedAt: { editable: false },
-                            ModifiedAt: { editable: false },
-                            Owner: { editable: false },
                             Content: { editable: true },
-                            Name: { editable: true },
+                            Name: { editable: true, validation: { required: true } },
                             Tags: { editable: true },
                             ParentTopicId: { editable: true },
                         }
@@ -4303,10 +4237,6 @@ function app_init() {  // this function runs once, on ready
                     model: {
                         id: "_id",
                         fields: {
-                            Id: { editable: false },
-                            CreatedAt: { type: "date", editable: false },
-                            ModifiedAt: { type: "date", editable: false },
-                            Owner: { editable: false },
                             Content: { editable: true },
                             Name: { editable: true, validation: { required: true } },
                             Tags: { editable: true },
@@ -4459,8 +4389,6 @@ function app_init() {  // this function runs once, on ready
                         id: "_id",
                         fields: {
                             Name: { editable: true, validation: { required: true } },
-                            CreatedAt: { editable: false },
-                            ModifiedAt: { editable: false },
                         }
                     }
                 },
@@ -4517,9 +4445,6 @@ function app_init() {  // this function runs once, on ready
                     model: {
                         id: "_id",
                         fields: {
-                            CreatedAt: { editable: false },
-                            ModifiedAt: { editable: false },
-                            Owner: { editable: false },
                             Name: { editable: true, validation: { required: true } },
                         }
                     }
@@ -4688,9 +4613,6 @@ function app_init() {  // this function runs once, on ready
                     model: {
                         id: "_id",
                         fields: {
-                            CreatedAt: { type: "date", editable: false },
-                            ModifiedAt: { type: "date", editable: false },
-                            Owner: { editable: false },
                             Title: { type: "string", editable: true },
                             Color: { type: "string", editable: true },
                         }

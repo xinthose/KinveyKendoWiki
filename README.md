@@ -3,9 +3,9 @@
  Kendo UI License Required: https://www.telerik.com/purchase/license-agreement/kendo-ui
 
  ## Documentation
- Kendo UI File and Image Browser: https://docs.telerik.com/kendo-ui/controls/editors/editor/imagebrowser
- - Demo: https://demos.telerik.com/kendo-ui/editor/imagebrowser
- Kendo Kinvey DataSource: https://github.com/Kinvey/kinvey-kendo-data-source
+ 1. Kendo UI File and Image Browser: https://docs.telerik.com/kendo-ui/controls/editors/editor/imagebrowser
+ ··* Demo: https://demos.telerik.com/kendo-ui/editor/imagebrowser
+ 2. Kendo Kinvey DataSource: https://github.com/Kinvey/kinvey-kendo-data-source
 
  ## Installation
  ### Kinvey

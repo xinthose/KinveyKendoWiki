@@ -3,9 +3,9 @@
  * file 'LICENSE.txt', which is part of this source code bundle.
  */
 
-const app_version = "1.08";
-const app_testing = false;   /*** Change for Production ***/
-const skip_login = false;   /*** Change for Production ***/
+const app_version = "1.1.0.0";
+const app_testing = true;   /*** Change for Production ***/
+const skip_login = true;   /*** Change for Production ***/
 const chat_used = true;
 const ldap_auto_login_used = false;
 
