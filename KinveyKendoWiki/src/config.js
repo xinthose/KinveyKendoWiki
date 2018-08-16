@@ -14,11 +14,11 @@ const kinvey_development_mode = false; // *** Change for Production ***
 var kinvey_appKey = "",
     kinvey_appSecret = "";
 if (kinvey_development_mode) {
-    kinvey_appKey = "kid_rJ_wACUYf";
-    kinvey_appSecret = "3a98c0a5fedb4a83ae04ff308d20d3df";
+    kinvey_appKey = "";
+    kinvey_appSecret = "";
 } else {
-    kinvey_appKey = "kid_HJqEBtNWz";
-    kinvey_appSecret = "e67314acfb6443a0870e2b8a60cf3167";
+    kinvey_appKey = "";
+    kinvey_appSecret = "";
 }
 const kinvey_host_url = "https://baas.kinvey.com";
 
