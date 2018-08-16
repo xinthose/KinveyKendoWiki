@@ -185,7 +185,7 @@ window.APP = {
                                             auto_list_rooms: true,
                                             auto_reconnect: true,
                                             allow_logout: false,
-                                            locked_domain: "elemechinc.com",
+                                            locked_domain: "",
                                             jid: email_address,
                                             password: password,
                                             message_archiving: "always",
@@ -198,17 +198,17 @@ window.APP = {
                                     }
                                     else {
                                         converse.initialize({
-                                            bosh_service_url: 'http://10.1.1.7:7070/http-bind/',
+                                            bosh_service_url: '',
                                             show_controlbox_by_default: true,
                                             muc_nickname_from_jid: true,
                                             hide_muc_server: true,
-                                            muc_domain: "conference.eds.elemech.local",
+                                            muc_domain: "",
                                             debug: false,
                                             auto_login: true,
                                             auto_list_rooms: true,
                                             auto_reconnect: true,
                                             allow_logout: false,
-                                            locked_domain: "elemechinc.com",
+                                            locked_domain: "",
                                             jid: email_address,
                                             password: password,
                                             message_archiving: "always",
@@ -436,7 +436,7 @@ window.APP = {
         }),
         /******************** Main Splitter Header ********************/
         main_splitter_header: kendo.observable({
-            title: "EleMech Wiki", display_name: "",
+            title: "Kendo Kinvey Wiki", display_name: "",
             // functions
             toggle_menu_button_click: function toggle_menu_button_click() {
                 try {
@@ -4166,7 +4166,7 @@ function app_init() {  // this function runs once, on ready
         }).data("kendoNotification");
         $("#login_window").kendoWindow({
             height: "340px", width: "280px",
-            title: "EleMech Wiki",
+            title: "Kendo Kinvey Wiki",
             actions: ["Close"],
             resizable: false,
             draggable: false,
@@ -4539,18 +4539,18 @@ function app_init() {  // this function runs once, on ready
                 },
             ],
             pdf: {
-                author: "EleMech, Inc.",
-                creator: "EleMech, Inc.",
-                fileName: "EleMech Wiki Topic.pdf",
-                keywords: "EleMech Wiki",
+                author: "",
+                creator: "",
+                fileName: "Wiki Topic.pdf",
+                keywords: "Wiki",
                 margin: {
                     left: "0.5in",
                     right: "0.5in",
                     top: "1in",
                     bottom: "1in"
                 },
-                subject: "EleMech Wiki",
-                title: "EleMech Wiki",
+                subject: "Wiki",
+                title: "Wiki",
             },
             //change: function main_pane_topic_content_editor_change() {
             //    try {
@@ -4676,10 +4676,10 @@ function app_init() {  // this function runs once, on ready
                 ]
             },
             pdf: {
-                author: "EleMech, Inc.",
-                creator: "EleMech, Inc.",
-                fileName: "EleMech Wiki Diagram.pdf",
-                keywords: "EleMech Wiki Diagram",
+                author: "",
+                creator: "",
+                fileName: "Wiki Diagram.pdf",
+                keywords: "Wiki Diagram",
                 subject: "Diagram",
                 title: "Diagram",
                 landscape: true,
